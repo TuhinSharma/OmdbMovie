@@ -56,11 +56,11 @@ public class DownloadIMDBdata {
 
 		String jsonStr = getJsonString(url);
 		JSONObject rootObject = new JSONObject(jsonStr); // Parse the JSON to a
-															// JSONObject
-		if (rootObject.get("Response").equals("True"))
-			return rootObject;
-		else
+		if (rootObject.get("Response").equals("True")) {
+				return rootObject;
+		} else {
 			return null;
+		}
 
 	}
 
@@ -88,16 +88,23 @@ public class DownloadIMDBdata {
 
 		FileWriter file = createFile();
 
-		for (int i = 1; i < 4003997; i++) {
+		for (int i = 1, j = 1; i < 10000; i++) {
+			System.out.println("i = " + i);
 			String movie_id = String.format("%07d", i);
 			JSONObject imdbdata = GetImdbJSON(movie_id);
-			file.write(imdbdata + "\n");
-			if (i % 5000 == 0) {
+			if (imdbdata != null) {
+				j++;
+				System.out.println("j = " + j);
+				file.write(imdbdata + "\n");
+				System.out.println(imdbdata);
+			}
+			if (j % 1000 == 0) {
 				file.close();
 				file = createFile();
 			}
 
 		}
+		file.close();
 
 	}
 }
