@@ -11,7 +11,6 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +49,7 @@ public class DownloadIMDBdata {
 		return (json.toString());
 	}
 
-	public static JSONObject GetImdbId(String movie_id) throws IOException,
+	public static JSONObject GetImdbJSON(String movie_id) throws IOException,
 			JSONException {
 
 		String url = static_url1 + movie_id + static_url2;
@@ -90,17 +89,16 @@ public class DownloadIMDBdata {
 		FileWriter file = createFile();
 
 		for (int i = 1; i < 4003997; i++) {
-			String s = String.format("%07d", i);
-			JSONObject imdbdata = GetImdbId(s);
-			file.write(imdbdata+"\n");
-			if(i%5000==0){
+			String movie_id = String.format("%07d", i);
+			JSONObject imdbdata = GetImdbJSON(movie_id);
+			file.write(imdbdata + "\n");
+			if (i % 5000 == 0) {
 				file.close();
 				file = createFile();
 			}
-			
+
 		}
 
 	}
-
 }
 // 4003996
